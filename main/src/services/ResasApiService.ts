@@ -21,7 +21,6 @@ export const fetchPrefectures = async (): Promise<Prefecture[]> => {
                 "X-API-KEY": RESAS_API_KEY!, // 環境変数からAPIキーを取得
             },
         });
-        console.log(process.env.REACT_APP_RESAS_API_KEY);
         // レスポンスから都道府県一覧データを抽出して返す
         return response.data.result;
     } catch (error) {
