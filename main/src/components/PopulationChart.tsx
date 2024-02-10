@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { fetchPrefectures } from "../services/ResasApiService";
 import axios from "axios";
 
 // Propsのインターフェース定義
@@ -31,14 +32,11 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
 
     // 都道府県一覧を取得
     useEffect(() => {
-        const fetchPrefectures = async () => {
-        const response = await axios.get("https://opendata.resas-portal.go.jp/api/v1/prefectures", {
-            headers: { "X-API-KEY": process.env.REACT_APP_RESAS_API_KEY! },
-        });
-        setPrefectures(response.data.result);
+        const initializePrefectures = async () => {
+            const fetchedPrefectures = await fetchPrefectures();
+            setPrefectures(fetchedPrefectures);
         };
-
-        fetchPrefectures();
+        initializePrefectures();
     }, []);
 
     // 人口データを取得し、チャートデータを設定
@@ -91,11 +89,11 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
                     const prefectureName = prefecture ? prefecture.prefName : `未知の都道府県(${prefCode})`;
                     return (
                         <Line
-                        key={prefCode}
-                        type="monotone"
-                        dataKey={prefectureName}
-                        stroke={["#8884d8", "#82ca9d", "#ffc658"][index % 3]} // 色を循環させる
-                        activeDot={{ r: 8 }}
+                            key={prefCode}
+                            type="monotone"
+                            dataKey={prefectureName}
+                            stroke={["#8884d8", "#82ca9d", "#ffc658"][index % 3]} // 色を循環させる
+                            activeDot={{ r: 8 }}
                         />
                     );
                 })}

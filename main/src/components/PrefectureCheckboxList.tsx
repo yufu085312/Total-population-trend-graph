@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchPrefectures } from "../services/ResasApiService";
 
 interface Prefecture {
     prefCode: number; // 都道府県コード
@@ -19,40 +19,36 @@ const PrefectureCheckboxList: React.FC<Props> = ({ onPrefectureChange }) => {
     const [selectedPrefectures, setSelectedPrefectures] = useState<number[]>([]);
 
     useEffect(() => {
-        const fetchPrefectures = async () => {
-        const response = await axios.get(
-            "https://opendata.resas-portal.go.jp/api/v1/prefectures",
-            {
-            headers: { "X-API-KEY": process.env.REACT_APP_RESAS_API_KEY! },
-            },
-        );
-        setPrefectures(response.data.result);
+        // fetchPrefectures関数を呼び出して都道府県一覧を取得
+        const initializePrefectures = async () => {
+            const fetchedPrefectures = await fetchPrefectures();
+            setPrefectures(fetchedPrefectures);
         };
 
-        fetchPrefectures();
+        initializePrefectures();
     }, []);
 
     //  チェックボックスの状態が変更された時に呼び出される関数
     const handleCheckboxChange = (prefCode: number) => {
         const newSelectedPrefectures = selectedPrefectures.includes(prefCode)
-        ? selectedPrefectures.filter((code) => code !== prefCode)
-        : [...selectedPrefectures, prefCode];
+            ? selectedPrefectures.filter(code => code !== prefCode)
+            : [...selectedPrefectures, prefCode];
         setSelectedPrefectures(newSelectedPrefectures);
         onPrefectureChange(newSelectedPrefectures);
     };
 
     return (
         <div>
-        {prefectures.map((prefecture) => (
-            <label key={prefecture.prefCode}>
-            <input
-                type="checkbox"
-                checked={selectedPrefectures.includes(prefecture.prefCode)}
-                onChange={() => handleCheckboxChange(prefecture.prefCode)}
-            />
-            {prefecture.prefName}
-            </label>
-        ))}
+            {prefectures.map(prefecture => (
+                <label key={prefecture.prefCode}>
+                    <input
+                        type="checkbox"
+                        checked={selectedPrefectures.includes(prefecture.prefCode)}
+                        onChange={() => handleCheckboxChange(prefecture.prefCode)}
+                    />
+                    {prefecture.prefName}
+                </label>
+            ))}
         </div>
     );
 };
