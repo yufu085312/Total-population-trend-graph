@@ -30,7 +30,8 @@ interface PopulationCompositionData {
 enum GraphType {
     Total = "total", // 総人口
     Young = "young", // 年少人口
-    WorkingAge = "workingAge" // 生産年齢人口
+    WorkingAge = "workingAge", // 生産年齢人口
+    Elderly = "elderly" // 老年人口
 }
 
 const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
@@ -68,6 +69,9 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
                     case GraphType.WorkingAge:
                         targetData = response.data.result.data.find((d: PopulationCompositionData) => d.label === "生産年齢人口");
                         break;
+                    case GraphType.Elderly:
+                        targetData = response.data.result.data.find((d: PopulationCompositionData) => d.label === "老年人口");
+                        break;
                     default:
                         targetData = response.data.result.data.find((d: PopulationCompositionData) => d.label === "総人口");
                 }
@@ -103,6 +107,7 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
         <button onClick={() => setGraphType(GraphType.Total)}>総人口</button>
         <button onClick={() => setGraphType(GraphType.Young)}>年少人口</button>
         <button onClick={() => setGraphType(GraphType.WorkingAge)}>生産年齢人口</button>
+        <button onClick={() => setGraphType(GraphType.Elderly)}>老年人口</button>
         <ResponsiveContainer width="100%" height={400}>
             <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
