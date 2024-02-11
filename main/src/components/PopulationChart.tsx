@@ -93,7 +93,6 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
                     }
                 });
             }
-
             setChartData(allData);
         };
 
@@ -102,12 +101,38 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
         }
     }, [selectedPrefectures, graphType, prefectureNameMap]);
 
+    // 現在選択されているグラフの種類に応じて表示するラベルの状態
+    const [currentGraphLabel, setCurrentGraphLabel] = useState<string>("総人口");
+
+    // graphTypeの状態が変わるたびに、表示するラベルを更新するuseEffectフック
+    useEffect(() => {
+        switch (graphType) {
+            case GraphType.Total:
+                setCurrentGraphLabel("総人口");
+                break;
+            case GraphType.Young:
+                setCurrentGraphLabel("年少人口");
+                break;
+            case GraphType.WorkingAge:
+                setCurrentGraphLabel("生産年齢人口");
+                break;
+            case GraphType.Elderly:
+                setCurrentGraphLabel("老年人口");
+                break;
+            default:
+                setCurrentGraphLabel("総人口");
+        }
+    }, [graphType]); // 依存配列にgraphType
+
     return (
         <div>
         <button onClick={() => setGraphType(GraphType.Total)}>総人口</button>
         <button onClick={() => setGraphType(GraphType.Young)}>年少人口</button>
         <button onClick={() => setGraphType(GraphType.WorkingAge)}>生産年齢人口</button>
         <button onClick={() => setGraphType(GraphType.Elderly)}>老年人口</button>
+        <div style={{ margin: "20px 0" }}>
+                <strong>表示中のデータ: </strong>{currentGraphLabel}
+        </div>
         <ResponsiveContainer width="100%" height={400}>
             <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
