@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { fetchPrefectures } from "../services/ResasApiService";
 import axios from "axios";
+import '../style/PopulationChart.css';
 
 // Propsのインターフェース定義
 interface Props {
@@ -125,32 +126,36 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
     }, [graphType]); // 依存配列にgraphType
 
     return (
-        <div>
-        <button onClick={() => setGraphType(GraphType.Total)}>総人口</button>
-        <button onClick={() => setGraphType(GraphType.Young)}>年少人口</button>
-        <button onClick={() => setGraphType(GraphType.WorkingAge)}>生産年齢人口</button>
-        <button onClick={() => setGraphType(GraphType.Elderly)}>老年人口</button>
-        <div style={{ margin: "20px 0" }}>
-                <strong>表示中のデータ: </strong>{currentGraphLabel}
-        </div>
-        <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                {selectedPrefectures.map((prefCode, index) => (
-                    <Line
-                        key={prefCode}
-                        type="monotone"
-                        dataKey={prefectureNameMap[prefCode]}
-                        stroke={["#8884d8", "#82ca9d", "#ffc658"][index % selectedPrefectures.length]}
-                        activeDot={{ r: 8 }}
-                    />
-                ))}
-            </LineChart>
-        </ResponsiveContainer>
+        <div className="population-chart-container">
+            <div className="buttons-container">
+                <button onClick={() => setGraphType(GraphType.Total)}>総人口</button>
+                <button onClick={() => setGraphType(GraphType.Young)}>年少人口</button>
+                <button onClick={() => setGraphType(GraphType.WorkingAge)}>生産年齢人口</button>
+                <button onClick={() => setGraphType(GraphType.Elderly)}>老年人口</button>
+            </div>
+            <div className="current-graph-label">
+                    <strong>表示中のデータ: </strong>{currentGraphLabel}
+            </div>
+            <div className="chart-container">
+                <ResponsiveContainer width="100%" height={400}>
+                    <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="year" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        {selectedPrefectures.map((prefCode, index) => (
+                            <Line
+                                key={prefCode}
+                                type="monotone"
+                                dataKey={prefectureNameMap[prefCode]}
+                                stroke={["#8884d8", "#82ca9d", "#ffc658"][index % selectedPrefectures.length]}
+                                activeDot={{ r: 8 }}
+                            />
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </div>
     );
 };
