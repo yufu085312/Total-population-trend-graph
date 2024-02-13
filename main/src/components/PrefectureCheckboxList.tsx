@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchPrefectures } from "../services/ResasApiService";
+import '../style/PrefectureCheckboxList.css';
 
 interface Prefecture {
     prefCode: number; // 都道府県コード
@@ -38,7 +39,7 @@ const PrefectureCheckboxList: React.FC<Props> = ({ onPrefectureChange }) => {
     };
 
     return (
-        <div>
+        <div className="prefecture-checkbox-list">
             {prefectures.map(prefecture => (
                 <label key={prefecture.prefCode}>
                     <input
