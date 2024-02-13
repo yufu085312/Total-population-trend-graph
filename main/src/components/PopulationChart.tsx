@@ -128,10 +128,10 @@ const PopulationChart: React.FC<Props> = ({ selectedPrefectures }) => {
     return (
         <div className="population-chart-container">
             <div className="buttons-container">
-                <button onClick={() => setGraphType(GraphType.Total)}>総人口</button>
-                <button onClick={() => setGraphType(GraphType.Young)}>年少人口</button>
-                <button onClick={() => setGraphType(GraphType.WorkingAge)}>生産年齢人口</button>
-                <button onClick={() => setGraphType(GraphType.Elderly)}>老年人口</button>
+                <button className="button" onClick={() => setGraphType(GraphType.Total)}>総人口</button>
+                <button className="button" onClick={() => setGraphType(GraphType.Young)}>年少人口</button>
+                <button className="button" onClick={() => setGraphType(GraphType.WorkingAge)}>生産年齢人口</button>
+                <button className="button" onClick={() => setGraphType(GraphType.Elderly)}>老年人口</button>
             </div>
             <div className="current-graph-label">
                     <strong>表示中のデータ: </strong>{currentGraphLabel}

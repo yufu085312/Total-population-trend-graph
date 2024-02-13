@@ -3,16 +3,11 @@
     margin: 20px;
 }
 
-.buttons-container {
-    margin-bottom: 20px;
-}
-
 .button {
     background-color: #4CAF50;
-    /* Green */
-    border: none;
+    border: 2px solid transparent;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -20,11 +15,22 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.button:hover {
+.button:hover,
+.button:focus {
     background-color: #45a049;
+    border-color: #4CAF50;
+    color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
 }
 
 .current-graph-label {
