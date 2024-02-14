@@ -1,0 +1,24 @@
+.prefecture-checkbox-list {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 7px;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    overflow: hidden;
+}
+
+.prefecture-checkbox-list label {
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    display: block;
+}
+
+.prefecture-checkbox-list input[type="checkbox"] {
+    margin-right: 10px;
+}
